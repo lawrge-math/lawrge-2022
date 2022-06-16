@@ -1,0 +1,224 @@
+\documentclass[12pt]{amsart}
+
+\usepackage{tikz}
+\usepackage{bbm}
+\usetikzlibrary{3d,arrows,calc,positioning,decorations.pathreplacing,matrix} %,arrows.meta}
+
+\usepackage{calligra,mathrsfs}
+\usepackage[all]{xy}
+\usepackage{float, comment}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsbsy}
+\usepackage{amstext}
+\usepackage{amsopn}
+%\usepackage{mathrsfs} % allows \mathscr
+\usepackage[mathscr]{eucal}
+\usepackage{enumerate}
+\usepackage{xcolor}
+\usepackage{graphicx} % allows \includegraphics{}s
+\usepackage{scalerel}
+\usepackage{microtype} % improves formattings
+\usepackage[margin=1in,marginparwidth=0.8in, marginparsep=0.1in]{geometry}
+\renewcommand{\baselinestretch}{1.2} % changes page formatting
+\usepackage[pagebackref, bookmarks=true, bookmarksopen=true, bookmarksdepth=3,bookmarksopenlevel=2, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, menucolor=blue, urlcolor=blue]{hyperref}
+% \usepackage{newtxtext} % improves font appearance
+\usepackage{tikz}
+\usepackage{bbm}
+\usepackage[all]{xy}
+\usetikzlibrary{arrows,calc,positioning,decorations.pathreplacing} %,arrows.meta}
+
+\numberwithin{equation}{section}
+\newtheorem{Theorem}[equation]{Theorem}
+\newtheorem{Proposition}[equation]{Proposition} 
+\newtheorem{Lemma}[equation]{Lemma}
+\newtheorem{Open}[equation]{Open Question}
+\newtheorem{Corollary}[equation]{Corollary}
+\newtheorem{Conjecture}[equation]{Conjecture}
+\newtheorem{Specialthm}{Theorem}
+\newtheorem{Question}{Question}
+
+\theoremstyle{definition}
+\newtheorem{Remark}[equation]{Remark}
+\newtheorem{Example}[equation]{Example}
+\newtheorem{Definition}[equation]{Definition}
+
+\numberwithin{figure}{section}
+
+\def\la{\langle}
+\def\ra{\rangle}
+\def\ttimes{\widetilde{\times}}
+\def\tbox{\widetilde{\boxtimes}}
+\def\bbox{{\boxtimes}}
+\def\O{\mathcal{O}}
+\def\K{\mathcal{K}}
+\def\bG{\mathbb{G}}
+\newcommand{\gr}{\mathrm{gr}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\fsl}{\mathfrak{sl}}
+\newcommand{\fg}{\mathfrak{g}}
+\newcommand{\fn}{\mathfrak{n}}
+\newcommand{\bk}{{\mathbbm k}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\G}{\mathbb{G}}
+\newcommand{\bN}{\mathbb{N}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\bfC}{{\mathbf{C}}}
+\newcommand{\bfD}{{\mathbf{D}}}
+\newcommand{\bfI}{{\mathbf{I}}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\sW}{\mathscr{W}}
+\newcommand{\sX}{\mathscr{X}}
+\newcommand{\sY}{\mathscr{Y}}
+\newcommand{\sZ}{\mathscr{Z}}
+
+\newcommand{\hs}{\heartsuit}
+\newcommand{\bul}{\bullet}
+\newcommand{\ga}{\gamma}
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+
+%% code from mathabx.sty and mathabx.dcl
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+	<5> <6> <7> <8> <9> <10>
+	<10.95> <12> <14.4> <17.28> <20.74> <24.88>
+	mathx10
+}{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareFontSubstitution{U}{mathx}{m}{n}
+\DeclareMathAccent{\widecheck}{0}{mathx}{"71}
+\DeclareMathSymbol{\shortminus}{\mathbin}{AMSa}{"39}
+
+\DeclareRobustCommand{\SkipTocEntry}[5]{}
+
+\newcommand{\arrtip}{latex'}
+
+\begin{document}
+\title{Notes on Schubert Calculus and Quantum Integrability}
+
+\begin{abstract}
+\end{abstract}
+
+\maketitle
+
+\setcounter{tocdepth}{1}
+
+\tableofcontents
+
+\section{Introduction}
+
+\thispagestyle{empty}
+
+Here is a template for a simple commutative diagram in tikz:
+\begin{equation*}
+\begin{tikzpicture}
+[baseline=(current  bounding  box.center),thick,>=\arrtip]
+\node (a) at (0,0) {$X'$};
+\node (b) at (2.5,0) {$Y'$};
+\node (c) at (0,-1.5) {$X$};
+\node (d) at (2.5,-1.5) {$Y$};
+\draw[->] (a) to node[above] {$f' $} (b);
+\draw[->] (b) to node[right] {$h $} (d);
+\draw[->] (a) to node[left] {$h' $}(c);
+\draw[->] (c) to node[above] {$f $} (d);
+\end{tikzpicture}
+\end{equation*}
+
+Here is a template for an elaborate commutative diagram in tikz:
+\begin{equation*}
+\begin{tikzpicture}[baseline=(current  bounding  box.center),thick,>=\arrtip]
+\newcommand*{\ha}{1.6}; \newcommand*{\hb}{1.6}; \newcommand*{\hc}{1.6};
+\newcommand*{\va}{-1.1}; \newcommand*{\vb}{-1.1}; \newcommand*{\vc}{-1.1};
+\node (ab) at (\ha,0) {$X_\al'$};
+\node (ad) at (\ha+\hb+\hc,0) {$Y_\al'$};
+\node (ba) at (0,\va) {$X'$};
+\node (bc) at (\ha+\hb,\va) {$Y'$};
+\node (cb) at (\ha,\va+\vb) {$X_\al$};
+\node (cd) at (\ha+\hb+\hc,\va+\vb) {$Y_\al$};
+\node (da) at (0,\va+\vb+\vc) {$X$};
+\node (dc) at (\ha+\hb,\va+\vb+\vc) {$Y$};
+\draw[->] (ab) to node[above] {$\phi' $} (ad);
+\draw[->] (ab) to node[above] {$ $} (ba);
+\draw[->] (ab) to node[left,pos=.8] {$\psi' $} (cb);
+\draw[->] (ad) to node[above] {$ $} (bc);
+\draw[->] (ad) to node[right] {$\psi $} (cd);
+\draw[->] (ba) to node[above] {$ $} (da);
+\draw[->] (cb) to node[above,pos=.2] {$\phi $} (cd);
+\draw[->] (cb) to node[above] {$ $} (da);
+\draw[->] (cd) to node[above] {$ $} (dc);
+\draw[->] (da) to node[above,pos=.6] {$f $} (dc);
+
+\draw[-,line width=6pt,draw=white] (ba) to  (bc);
+\draw[->] (ba) to node[above,pos=.75] {$f' $} (bc);
+\draw[-,line width=6pt,draw=white] (bc) to  (dc);
+\draw[->] (bc) to node[right,pos=.2] {$h $} (dc);
+\end{tikzpicture}
+\end{equation*}
+
+\section{Lecture 1 (Allen Knutson)}
+
+\section{Lecture 2 (Allen Knutson)}
+
+\section{Lecture 3 (Paul Zinn-Justin)}
+
+\section{Lecture 4 (Paul Zinn-Justin)}
+
+\section{Lecture 5 (Allen Knutson)}
+
+\section{Lecture 6 (Allen Knutson)}
+
+\section{Lecture 7 (Paul Zinn-Justin)}
+
+\section{Lecture 8 (Paul Zinn-Justin)}
+
+\section{Lecture 9 (Allen Knutson)}
+
+\section{Lecture 10 (Allen Knutson)}
+
+\section{Lecture 11 (Paul Zinn-Justin)}
+
+\section{Lecture 12 (Paul Zinn-Justin)}
+
+\section{Lecture 13 (Allen Knutson)}
+
+\section{Lecture 14 (Paul Zinn-Justin)}
+
+\section{Lecture 15 (Allen Knutson)}
+
+\section{Lecture 16 (Allen Knutson)}
+
+\section{Lecture 17 (Paul Zinn-Justin)}
+
+\section{Lecture 18 (Paul Zinn-Justin)}
+
+\end{document}
