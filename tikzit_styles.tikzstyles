@@ -4,7 +4,7 @@
 % \tikzstyle{NAME}=[PROPERTY LIST]
 
 % Node styles
-\tikzstyle{new style 0}=[fill=none, draw={rgb,255: red,191; green,0; blue,64}, shape=]
+\tikzstyle{new style 0}=[fill=white, draw=black, shape=circle]
 
 % Edge styles
 \tikzstyle{red edge}=[-, fill=none, draw={rgb,255: red,191; green,0; blue,64}]
