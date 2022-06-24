@@ -187,6 +187,275 @@ Here is a template for an elaborate commutative diagram in tikz:
 
 \section{Lecture 1 (Allen Knutson)}
 
+Let $V$ be a $k$-plane in $'C^n$ with basis represented as a $k\times n$ matrix with basis elements as row vectors. Put this matrix into Reduced Row Echelon Form and consider left action by $GL_k(\C)$ and right action by upper triangular matrices to get an open subgroup of \textit{right word row operations}.
+
+\begin{Theorem}
+A matrix $\text{Mat}_n(\C)$ acted on the left by $GL_k(\C)$ downward row operations and  on the right by upper triangular matrices rightward column operations, that is,
+$$\begin{tikzpicture}
+\node (a) at (.3,.3) {$*$};
+\node (b) at (.7,.7) {$0$};
+\draw [-] (.9,.1) to (.1,.9);
+\draw[-] (0,0) to (0,1);
+\draw[-] (1,0) to (1,1);
+\draw[-] (0,0) to (.1,0);
+\draw[-] (0,1) to (.1,1);
+\draw[-] (.9,0) to (1,0);
+\draw[-] (.9,1) to (1,1);
+\node (c) at (2.5,.5) {$\circlearrowright$Mat$_n(\C)\circlearrowleft$};
+\node (a) at (4.3,.3) {$0$};
+\node (b) at (4.7,.7) {$*$};
+\draw [-] (4.9,.1) to (4.1,.9);
+\draw[-] (4,0) to (4,1);
+\draw[-] (5,0) to (5,1);
+\draw[-] (4,0) to (4.1,0);
+\draw[-] (4,1) to (4.1,1);
+\draw[-] (4.9,0) to (5,0);
+\draw[-] (4.9,1) to (5,1);
+\end{tikzpicture}$$
+ has one orbit for each partial permutation matrix. This is the \textbf{Bruhet decomposition} of the matrix.
+\end{Theorem}
+
+\begin{Definition}
+A matrix \textbf{Schubert Variety} is $\overline{X_{\pi}}:=\overline{B_-\pi B_+}$ where $\pi$ is the permutation matrix.
+\end{Definition}
+
+\begin{Theorem}
+$\overline{X_\pi}$ is the set of $n\times n$ matrices, $M$, such that for all $i,j\in[n]$, the $i\times j$ submatrix of $M$ is less than or equal to the $i\times j$ submatrix of $\pi$. That is, the determinants summarized by these conditions generate a prime ideal whose vanishing set is $\overline{X_\pi}$.
+\end{Theorem}
+
+As an example, consider $\pi=3142$ pictured below:
+
+\begin{center}
+\begin{tikzpicture}
+\node (40) at (0,.5) {$2$};
+\node (30) at (0,1.5) {$4$};
+\node (20) at (0,2.5) {$1$};
+\node (10) at (0,3.5) {$3$};
+\node (21) at (1,2.5) {$1$};
+\node (11) at (1,3.5) {$0$};
+\node (42) at (2, .5) {$1$};
+\node (32) at (2,1.5) {$*$};
+\node (12) at (2,3.5) {$0$};
+\node (13) at (3,3.5) {$1$};
+\node (34) at (4,1.5) {$1$};
+\draw[-] (.5,0) to (.5,4);
+\draw[-] (4.5,0) to (4.5,4);
+\draw[-] (.5,0) to (4.5,0);
+\draw[-] (.5,4) to (4.5,4);
+\draw[->] (2.5,.5) to (4.3,.5);
+\draw[->] (1,2) to (1,.5);
+\draw[->] (1.5,2.5) to (4,2.5);
+\draw[->] (4,1) to (4,.3);
+\draw[->] (3,3) to (3,.3);
+\draw[->] (3.5,3.5) to (4.3,3.5);
+\end{tikzpicture}
+\end{center}
+The arrows are referred to as \textbf{death rays} since each leading one eliminates the entries to the right of and below it. In this example we have that $$m_{11}=m_{12}=0=\det\left ( \begin{array}{cc} m_{21} & m_{22} \\ m_{31} & m_{32}  \end{array}\right )$$ and the associated \textbf{Rothe diagram} is $$\left [ \begin{array}{cc} 0 & 0 \\ & *\end{array}\right ]$$
+
+Two natural questions arise. First, how big is $\overline{X_\pi}$? We see that \begin{align*}
+\dim\overline{X_\pi}&=\dim(B_-\pi B_+) \\
+&= \dim(B_-\times B_+)-\dim(\text{stab}(\pi))\\
+&=\text{the number of entries crossed out in the death ray diagram}\\
+&=\dim T_\pi(B_-\pi B_+)\\
+&=\dim(b_-\pi+\pi b_+)
+\end{align*}
+Where $b_-$ and $b_+$ are lie algebras. Hence the codimension of $\overline{X_\pi}$ is the number of entries in the Rothe diagram.
+
+\begin{Theorem}
+The only essential rank conditions are at the southeast corners of the Rothe diagram.
+\end{Theorem}
+
+The second question is what is the volumn of $\P(\overline{X_\pi})$?
+Considering the degree as a projective variety, we get the following axioms for $Y\subseteq\P(V)$ defined by some homogeneous ideal.
+\begin{enumerate}
+\item[(0)] The degree of $p^1$ is 1.
+\item If $Y$ is reducible, that is the ideal is not prime, such that $Y=Y_1\cup Y_2\cup\cdots\cup Y_k$ and $I\subseteq P_i$ is minimal, then the degree of $Y$ is the sum over the top dimensional components of the product of the multiplicity of $Y_i$ and the degree of $Y_i$.
+\item If $W\subseteq V$ is a hyperplane and $\P(W)\supseteq Y$ then the degree of $Y$ in $\P(V)$ is equal to the degree of $Y$ in $\P(W)$.
+\item If $W\subseteq V$ is a hyperplane and Y is reduced and irreducible, that is I is prime and $Y\subseteq \P(W)$, then the degree of $Y$ in $\P(V)$ is equal to the degree of $Y\cap\P(W)$ in $\P(W)$.
+
+\end{enumerate}
+
+What is the degree of $\P(\overline{X_\pi})$? Consider the base case where $$\pi=w_0^{(n)}=
+\vcenter{\hbox{\begin{tikzpicture}
+\node at (.2,.2) {1};
+\node at (.8,.8) {1};
+\node at (.4,.4) {$\cdot$};
+\node at (.5,.5) {$\cdot$};
+\node at (.6,.6) {$\cdot$};
+\draw[-] (0,0) to (0,1);
+\draw[-] (0,0) to (.2,0);
+\draw[-] (0,1) to (.2,1);
+\draw[-] (1,0) to (1,1);
+\draw[-] (.8,0) to (1,0);
+\draw [-] (.8,1) to (1,1);
+\end{tikzpicture}}}$$.
+
+After eliminating entries via death rays we see that
+$\overline{X_\pi}=\left \{ M: \vcenter{\hbox{\begin{tikzpicture}
+\node at (.2,.8) {0};
+\node at (.8,.2) {*};
+\draw[-] (.2,.2) to (.8,.8);
+\draw[-] (0,0) to (0,1);
+\draw[-] (0,0) to (.2,0);
+\draw[-] (0,1) to (.2,1);
+\draw[-] (1,0) to (1,1);
+\draw[-] (.8,0) to (1,0);
+\draw [-] (.8,1) to (1,1);
+\end{tikzpicture}}}\right \}$
+where the $0$'s in the upper left of the matrix aligns with axiom 2 and the free variables in the lower left align with axiom 3. This gives us that $\deg(\overline{X_\pi})=1$.
+
+If $\pi\neq w_0^{(n)}$ pick $i\in[n]$ least such that $\pi(i)\neq w_0^{(n)}(i)=n+1-i$. Then $W:=\{ M: m_i\pi(i)=0\}$ and $$\overline{X_\pi}\cap W=\overline{X_\pi}\cap\left\{ \vcenter{\hbox{\begin{tikzpicture}
+\node at (0,0) {$i$};
+\node at (1,1.1) {$\pi(i)$};
+\node at (.6,.4) {$0$};
+\draw[-] (.2,.8) to (.2,-.8);
+\draw[-] (.2,-.8) to (1.8,-.8);
+\draw[-] (1.8,-.8) to (1.8,.8);
+\draw[-] (1.8,.8)to (.2,.8);
+\draw[-] (1,0) to (1,.8);
+\draw[-] (.2,0) to (1,0);
+\end{tikzpicture}}}\right\}\circlearrowleft B_-\times B_+ \text{ invariant}$$ which is the union of $\overline{X_{\pi'}}$ over certain $\pi'$ none of which are strictly partial permutations and all multiplicities are $1$.
+
+\begin{Definition}
+A \textbf{pipe dream} for $\pi$ is a diagram $$\vcenter{\hbox{\begin{tikzpicture}
+\draw[-] (1,4) to (5,4);
+\draw[-] (5,4) to (5,0);
+\draw[-] (5,0) to (1,0);
+\draw[-] (1,0) to (1,4);
+\node (1) at (1.5,4.5) {$1$};
+\node (2) at (2.5,4.5) {$2$};
+\node (...) at (3.5,4.5) {$\cdots$};
+\node (n) at (4.5,4.5) {$n$};
+\node (p1) at (0,3.5) {$\pi(1)$};
+\node (p2) at (0,2.5) {$\pi(2)$};
+\node (p) at (0,1.5) {$\hdots$};
+\node (pn) at (0,.5) {$\pi(n)$};
+\draw[-] (2,4) to (2,0);
+\draw[-] (3,4) to (3,0);
+\draw[-] (4,4) to (4,0);
+\draw[-] (1,1) to (5,1);
+\draw[-] (1,2) to (5,2);
+\draw[-] (1,3) to (5,3);
+\draw[-] (1,4) to (5,4);
+\end{tikzpicture}}}$$
+where each box is filed in with one of two tiles: crosses $\vcenter{\hbox{\begin{tikzpicture}
+\node at (0,.5) {j};
+\node at (.5,1) {i};
+\node at (1,.5) {j};
+\node at (.5,0) {i};
+\draw[-] (.2,.2) to (.2,.8);
+\draw[-] (.2,.8) to (.8,.8);
+\draw[-] (.8,.8) to (.8,.2);
+\draw[-] (.8,.2) to (.2,.2);
+\draw[-] (.2,.5) to (.8,.5);
+\draw[-] (.5,.2) to (.5,.8);
+\end{tikzpicture}}}$ when $i\leq j$ and elbows $\vcenter{\hbox{\begin{tikzpicture}
+\node at (0,.5) {i};
+\node at (.5,1) {i};
+\node at (1,.5) {j};
+\node at (.5,0) {j};
+\draw[-] (.2,.2) to (.2,.8);
+\draw[-] (.2,.8) to (.8,.8);
+\draw[-] (.8,.8) to (.8,.2);
+\draw[-] (.8,.2) to (.2,.2);
+\draw (.2,.5) arc[start angle=-90, end angle=0, radius=.3];
+\draw (.5,.25) arc[start angle=180, end angle=90, radius=.3];
+\end{tikzpicture}}}$ when $i\neq j$.
+\end{Definition}
+
+\begin{Theorem}
+The degree of $\overline{X_\pi}$ is the number of pipe dreams of $\pi$.
+\end{Theorem}
+For a torus $T\cong (\C^x)^N$ and $Y\subseteq V)\circlearrowleft T$ where $Y$ is a $T$-invariant subvariety and $V$ is a $T$-representation can soup up the degree to a $T$-equivariant cohomology class. 
+
+Our above axioms hold from above with the exception of axiom 2 which can be rewritten at follows: \begin{enumerate}
+\item[(2)] $[Y\subseteq V]$ equals the weight of $T(V/W)[Y\subseteq W]$ for $T\in T^*$. The $T^*$ weight lattice is given by Hom$(T,\C^x)\cong\Z^N$ such that for $\Lambda=(\lambda_1,\ldots,\lambda_N)\in\Z^N$ and $t=(t_1,\ldots,t_N)\in(\C^x)^N$, $\Lambda\cdot t=\prod\limits_{i=1}^N t_i^{\lambda_i}$. Then $[Y\subseteq V]\in\text{Sum}(T^*)\cong\Z[Y_1,\ldots,Y_n]$.
+\end{enumerate}
+
+\begin{Definition}
+The \textbf{Double Schubert Polynomial} is $S_\pi(X,Y)=[\overline{X_\pi}\subseteq\text{Mat}_n]$ with respect to $T\times T\circlearrowright\text{Mat}_n$ such that $\overline{S_\pi}(X,Y)=\sum\limits_{\text{p}}\prod\limits_{\text{c}}(X_{\text{row}}-Y_{\text{col}})$ where $p$ stands for pipe dreams for $\pi$ and $c$ represents crosses. 
+\end{Definition}
+Consider the possible pipe dreams for $\pi=132$.
+\begin{center}
+$\vcenter{\hbox{\begin{tikzpicture}
+\draw[-] (1,4) to (4,4);
+\draw[-] (4,4) to (4,1);
+\draw[-] (4,1) to (1,1);
+\draw[-] (1,1) to (1,4);
+\node (1) at (1.5,4.5) {$1$};
+\node (2) at (2.5,4.5) {$2$};
+\node (3) at (3.5,4.5) {$3$};
+\node (p1) at (0,3.5) {$1$};
+\node (p2) at (0,2.5) {$3$};
+\node (p3) at (0,1.5) {$2$};
+\draw[-] (2,4) to (2,1);
+\draw[-] (3,4) to (3,1);
+\draw[-] (4,4) to (4,1);
+\draw[-] (1,1) to (4,1);
+\draw[-] (1,2) to (4,2);
+\draw[-] (1,3) to (4,3);
+\draw[-] (1,4) to (4,4);
+\draw (1,3.5) arc[start angle=-90, end angle=0, radius=.5]; %11
+\draw (1.5,3) arc[start angle=180, end angle=90, radius=.5]; 
+\draw (2,3.5) arc[start angle=-90, end angle=0, radius=.5]; %12
+\draw (2.5,3) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,3.5) arc[start angle=-90, end angle=0, radius=.5]; %13
+\draw (3.5,3) arc[start angle=180, end angle=90, radius=.5];
+\draw[-] (1,2.5) to (2,2.5); %21
+\draw[-] (1.5,3) to (1.5,2);
+\draw (2,2.5) arc[start angle=-90, end angle=0, radius=.5]; %22
+\draw (2.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,2.5) arc[start angle=-90, end angle=0, radius=.5]; %23
+\draw (3.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (1,1.5) arc[start angle=-90, end angle=0, radius=.5]; %31
+\draw (1.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,1.5) arc[start angle=-90, end angle=0, radius=.5]; %32
+\draw (2.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (2,1.5) arc[start angle=-90, end angle=0, radius=.5]; %33
+\draw (3.5,1) arc[start angle=180, end angle=90, radius=.5];
+\end{tikzpicture}}}$
+\hspace{10mm} and \hspace{10mm}
+$\vcenter{\hbox{\begin{tikzpicture}
+\draw[-] (1,4) to (4,4);
+\draw[-] (4,4) to (4,1);
+\draw[-] (4,1) to (1,1);
+\draw[-] (1,1) to (1,4);
+\node (1) at (1.5,4.5) {$1$};
+\node (2) at (2.5,4.5) {$2$};
+\node (3) at (3.5,4.5) {$3$};
+\node (p1) at (0,3.5) {$1$};
+\node (p2) at (0,2.5) {$3$};
+\node (p3) at (0,1.5) {$2$};
+\draw[-] (2,4) to (2,1);
+\draw[-] (3,4) to (3,1);
+\draw[-] (4,4) to (4,1);
+\draw[-] (1,1) to (4,1);
+\draw[-] (1,2) to (4,2);
+\draw[-] (1,3) to (4,3);
+\draw[-] (1,4) to (4,4);
+\draw (1,3.5) arc[start angle=-90, end angle=0, radius=.5]; %11
+\draw (1.5,3) arc[start angle=180, end angle=90, radius=.5]; 
+\draw[-] (2.5,4) to (2.5,3); %12
+\draw[-] (2,3.5) to (3,3.5);
+\draw (3,3.5) arc[start angle=-90, end angle=0, radius=.5]; %13
+\draw (3.5,3) arc[start angle=180, end angle=90, radius=.5];
+\draw (1,2.5) arc[start angle=-90, end angle=0, radius=.5]; %21
+\draw (1.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (2,2.5) arc[start angle=-90, end angle=0, radius=.5]; %22
+\draw (2.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,2.5) arc[start angle=-90, end angle=0, radius=.5]; %23
+\draw (3.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (1,1.5) arc[start angle=-90, end angle=0, radius=.5]; %31
+\draw (1.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,1.5) arc[start angle=-90, end angle=0, radius=.5]; %32
+\draw (2.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (2,1.5) arc[start angle=-90, end angle=0, radius=.5]; %33
+\draw (3.5,1) arc[start angle=180, end angle=90, radius=.5];
+\end{tikzpicture}}}$
+\end{center}
+\vspace{5mm}
+Frome these pipe dreams we see that the Double Schubert Polynomial is $S_{132}=(X_2-Y_1)+(X_1-Y_2)$.
+
 \section{Lecture 2 (Allen Knutson)}
 
 \section{Lecture 3 (Paul Zinn-Justin)}
