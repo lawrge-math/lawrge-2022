@@ -19,6 +19,7 @@
 \usepackage{enumerate}
 \usepackage{xcolor}
 \usepackage{graphicx} % allows \includegraphics{}s
+\usepackage{tikz-cd}
 \usepackage{scalerel}
 \usepackage{microtype} % improves formattings
 \usepackage[margin=1in,marginparwidth=0.8in, marginparsep=0.1in]{geometry}
@@ -30,8 +31,12 @@
 \usepackage[all]{xy}
 \usetikzlibrary{arrows,calc,positioning,decorations.pathreplacing} %,arrows.meta}
 
+\newcommand{\blue}{\color{blue}}
+\newcommand{\red}{\color{red}}
+
 \numberwithin{equation}{section}
 \newtheorem{Theorem}[equation]{Theorem}
+\newtheorem{Proof}[equation]{Proof}
 \newtheorem{Proposition}[equation]{Proposition} 
 \newtheorem{Lemma}[equation]{Lemma}
 \newtheorem{Open}[equation]{Open Question}
@@ -334,6 +339,270 @@ Note that we index faces and vertices according to ``missing" letters in $Q$, an
 \end{Example}
 
 \section{Lecture 6 (Allen Knutson)}
+This lecture is split into two parts.  The first is a continuation of the previous lecture, leading up to an equivariant $K$-theory version of the AJS/Billey formula.  The second is a discussion of $G$-equivariant cohomology from the ground up.
+
+\subsection{The subword complex and equivariant $K$-theory} Recall that given a word $Q$ in the primitive generators of a Coxeter group $W$, and some element $w\in W$, we can build the subword complex $\Delta(Q,w)$. The following theorem gives us a sense of what these look like:
+
+\begin{Theorem}[Knutson-Miller '05] Let $\ell(w)$ denote the length of $w$. Then:
+\begin{enumerate}
+    \item $\dim \Delta(Q,w) = \# Q - \ell(w) - 1$.
+    \item $\Delta (Q,w)$ is always homeomorphic to a ball or a sphere. It is also a $\Delta(Q,w)$ is a \textbf{shellable}  simplicial complex.  
+    \item $\partial \Delta(Q,w) = \bigcup_{ w' > w} \Delta(Q,w')$.
+\end{enumerate}
+\end{Theorem}
+
+We'll mention one other result that tells us something about the combinatorics of these complexes, namely about the links to their faces.
+
+\begin{Example}
+First, what's the link of a stratum in a stratified space?  Well, it's the intersection of the boundary of a small open neighborhood of that stratum.  Here's a picture of a link (red) of a stratum (blue), together with the ``combinatorialized'' version of the link available to a simplicial set:
+\begin{center}
+\includegraphics[width=4in]{6.1.png}
+\end{center}
+\end{Example}
+
+The result will be stated using the following terminology:
+\begin{Definition}
+The \textbf{Mobius function} on the faces $F$ of a simplicial complex is
+\[ \mu(F) := 1 - \chi(\textup{link of }F)\]
+\end{Definition}
+
+\begin{Theorem}
+If $\Delta$ is a shellable ball or sphere, then 
+    \[ \textup{link}(F) \cong \begin{cases} \textup{hemisphere} & \textup{for $F$ an exterior face}\\
+    \textup{sphere} \cong S^{\textup{codim}{F} - 1} & \textup{for $F$ an interior face}\end{cases}\]
+Translated, this gives:
+\[\mu(F) = \begin{cases} 0 & \textup{for $F$ an exterior face}\\
+   (-1)^{\text{codim}(F)}  & \textup{for $F$ an interior face}\end{cases}\]
+In our case, where $\Delta = \Delta(Q,w)$, and is thus a shellable ball or sphere, this result implies that $\mu(F) = \pm1$ if $Q \setminus F$ doesn't contain a reduced word $w' \subset w$, and is 0 otherwise.
+\end{Theorem}
+
+
+OK, back to Schubert stuff, where we'll use some of the above terminology. Recall that given $v\in W$ and a reduced word $Q$ for $v$, AJS/Billey gives us a formula
+
+\[ [ X_0^v \cap X_w] = \sum_{\textup{reduced subexpression }R\subseteq Q\\ = \textup{facets of $\Delta(Q,v)$}} stuff \quad \in H_T^*(X_0^v)\]
+
+This is a statement in equivariant cohomology. We will see that there is also an analogous formula in equivariant $K$-theory!  To get there, the above language of the subword complex will be useful, in light of the following result:
+
+\begin{Theorem}[Knutson] There exists a $T$-equivariant degeneration of the Kazhdan-Lusztig variety $X_0^v \cap X_w$ to the Stanley-Reisner variety of the subword complex:
+\[ SR(\Delta(Q,w)) := \bigcup_{\textup{facets $F$ of }\Delta(Q,w)} \mathbb{C}^F \quad \subseteq \mathbb{C}^Q\]
+\end{Theorem}
+
+The fact that the degeneration is $T$-equivariant means that it drags along equivariant cohomology and $K$-theory classes. So in particular, this result implies the following promised $K$-theory version of AJS/Billey:
+\begin{Theorem}[Graham-Willems]
+Given $v\in W$ and a reduced word $Q$ for $v$,
+\[ [ X_0^v \cap X_w]_K = \sum_{\textup{interior facets of $\Delta(Q,v)$}} (-1)^{|R|-\ell(w)}\Big(\prod_{q\in Q}r_q\cdot  \widehat{(1-e^{-\alpha_q})}\Big)\cdot 1 \quad \in K_T(X_0^v)\]
+where the sum is now over subwords $R\subseteq Q$ such that $R$ contains a reduced word for $w$, but not for any $w' > w$; the notation $\widehat{(1-e^{-\alpha_q})}$ means that we only include this expression in the product if $q\in R$. 
+\end{Theorem}
+
+The above was about an $T$-equivariant $K$-theory class of an intersection inside the flag variety. Next, we'll have a formula for the $T\times T$-equivariant $K$-theory class of a matrix Schubert variety. Let's first give this a cool name:
+
+\begin{Definition}
+The \textbf{double Grothendieck polynomial} is 
+\[ G_\pi(e^x, e^y) := [ \overline{X_\pi}]_K \in K_{T\times T}(\textup{Mat}_n) \cong K_{T\times T}(\textup{point}) = \mathbb{Z}[e^{\pm x_1}, \dots, e^{\pm x_n}, e^{\pm y_1}, \dots, e^{\pm y_n}]\]
+\end{Definition}
+
+\noindent It turns out that this also has a formula:
+
+\begin{Theorem}[Fomin-Kirillov]
+The double Grothendieck polynomial can be calculated as
+\[G_\pi(e^x,e^y) = \sum_{\textup{possibly nonreduced pipe dreams for $\pi$}} (-1)^{\# \textup{extra $+$'s}} \prod_{+\textup{'s}} (1-e^{-x_{row} + y_{col}})\]
+\end{Theorem}
+
+\begin{Example}
+For $\pi = 132$, recall from Lecture 1 that there are two reduced pipe dreams: 
+
+\begin{center}
+$\vcenter{\hbox{\begin{tikzpicture}
+\draw[-] (1,4) to (4,4);
+\draw[-] (4,4) to (4,1);
+\draw[-] (4,1) to (1,1);
+\draw[-] (1,1) to (1,4);
+\node (1) at (1.5,4.5) {$1$};
+\node (2) at (2.5,4.5) {$2$};
+\node (3) at (3.5,4.5) {$3$};
+\node (p1) at (0,3.5) {$1$};
+\node (p2) at (0,2.5) {$3$};
+\node (p3) at (0,1.5) {$2$};
+\draw[-] (2,4) to (2,1);
+\draw[-] (3,4) to (3,1);
+\draw[-] (4,4) to (4,1);
+\draw[-] (1,1) to (4,1);
+\draw[-] (1,2) to (4,2);
+\draw[-] (1,3) to (4,3);
+\draw[-] (1,4) to (4,4);
+\draw (1,3.5) arc[start angle=-90, end angle=0, radius=.5]; %11
+\draw (1.5,3) arc[start angle=180, end angle=90, radius=.5]; 
+\draw (2,3.5) arc[start angle=-90, end angle=0, radius=.5]; %12
+\draw (2.5,3) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,3.5) arc[start angle=-90, end angle=0, radius=.5]; %13
+\draw (3.5,3) arc[start angle=180, end angle=90, radius=.5];
+\draw[-] (1,2.5) to (2,2.5); %21
+\draw[-] (1.5,3) to (1.5,2);
+\draw (2,2.5) arc[start angle=-90, end angle=0, radius=.5]; %22
+\draw (2.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,2.5) arc[start angle=-90, end angle=0, radius=.5]; %23
+\draw (3.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (1,1.5) arc[start angle=-90, end angle=0, radius=.5]; %31
+\draw (1.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,1.5) arc[start angle=-90, end angle=0, radius=.5]; %32
+\draw (2.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (2,1.5) arc[start angle=-90, end angle=0, radius=.5]; %33
+\draw (3.5,1) arc[start angle=180, end angle=90, radius=.5];
+\end{tikzpicture}}}$
+\hspace{10mm} and \hspace{10mm}
+$\vcenter{\hbox{\begin{tikzpicture}
+\draw[-] (1,4) to (4,4);
+\draw[-] (4,4) to (4,1);
+\draw[-] (4,1) to (1,1);
+\draw[-] (1,1) to (1,4);
+\node (1) at (1.5,4.5) {$1$};
+\node (2) at (2.5,4.5) {$2$};
+\node (3) at (3.5,4.5) {$3$};
+\node (p1) at (0,3.5) {$1$};
+\node (p2) at (0,2.5) {$3$};
+\node (p3) at (0,1.5) {$2$};
+\draw[-] (2,4) to (2,1);
+\draw[-] (3,4) to (3,1);
+\draw[-] (4,4) to (4,1);
+\draw[-] (1,1) to (4,1);
+\draw[-] (1,2) to (4,2);
+\draw[-] (1,3) to (4,3);
+\draw[-] (1,4) to (4,4);
+\draw (1,3.5) arc[start angle=-90, end angle=0, radius=.5]; %11
+\draw (1.5,3) arc[start angle=180, end angle=90, radius=.5]; 
+\draw[-] (2.5,4) to (2.5,3); %12
+\draw[-] (2,3.5) to (3,3.5);
+\draw (3,3.5) arc[start angle=-90, end angle=0, radius=.5]; %13
+\draw (3.5,3) arc[start angle=180, end angle=90, radius=.5];
+\draw (1,2.5) arc[start angle=-90, end angle=0, radius=.5]; %21
+\draw (1.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (2,2.5) arc[start angle=-90, end angle=0, radius=.5]; %22
+\draw (2.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,2.5) arc[start angle=-90, end angle=0, radius=.5]; %23
+\draw (3.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (1,1.5) arc[start angle=-90, end angle=0, radius=.5]; %31
+\draw (1.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,1.5) arc[start angle=-90, end angle=0, radius=.5]; %32
+\draw (2.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (2,1.5) arc[start angle=-90, end angle=0, radius=.5]; %33
+\draw (3.5,1) arc[start angle=180, end angle=90, radius=.5];
+\end{tikzpicture}}}$
+\end{center}
+\vspace{5mm}
+
+There is also one (properly) nonreduced pipe dream, with two crossings, which is resolved by the above reduced two:
+
+\begin{center}
+    \begin{tikzpicture}
+\draw[-] (1,4) to (4,4);
+\draw[-] (4,4) to (4,1);
+\draw[-] (4,1) to (1,1);
+\draw[-] (1,1) to (1,4);
+\node (1) at (1.5,4.5) {$1$};
+\node (2) at (2.5,4.5) {$2$};
+\node (3) at (3.5,4.5) {$3$};
+\node (p1) at (0,3.5) {$1$};
+\node (p2) at (0,2.5) {$3$};
+\node (p3) at (0,1.5) {$2$};
+\draw[-] (2,4) to (2,1);
+\draw[-] (3,4) to (3,1);
+\draw[-] (4,4) to (4,1);
+\draw[-] (1,1) to (4,1);
+\draw[-] (1,2) to (4,2);
+\draw[-] (1,3) to (4,3);
+\draw[-] (1,4) to (4,4);
+\draw (1,3.5) arc[start angle=-90, end angle=0, radius=.5]; %11
+\draw (1.5,3) arc[start angle=180, end angle=90, radius=.5]; 
+\draw[-] (2.5,4) to (2.5,3); %12
+\draw[-] (2,3.5) to (3,3.5);
+\draw (3,3.5) arc[start angle=-90, end angle=0, radius=.5]; %13
+\draw (3.5,3) arc[start angle=180, end angle=90, radius=.5];
+\draw[-] (1,2.5) to (2,2.5); %21
+\draw[-] (1.5,3) to (1.5,2);
+\draw (2,2.5) arc[start angle=-90, end angle=0, radius=.5]; %22
+\draw (2.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,2.5) arc[start angle=-90, end angle=0, radius=.5]; %23
+\draw (3.5,2) arc[start angle=180, end angle=90, radius=.5];
+\draw (1,1.5) arc[start angle=-90, end angle=0, radius=.5]; %31
+\draw (1.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (3,1.5) arc[start angle=-90, end angle=0, radius=.5]; %32
+\draw (2.5,1) arc[start angle=180, end angle=90, radius=.5];
+\draw (2,1.5) arc[start angle=-90, end angle=0, radius=.5]; %33
+\draw (3.5,1) arc[start angle=180, end angle=90, radius=.5];
+\end{tikzpicture}
+\end{center}
+
+Therefore, by the Fomin-Kirillov formula, the double Grothendieck polynomial in this case is
+\[ G_{132}(e^x, e^y) = (1-e^{-x_2 + y_1}) + (1-e^{-x_1 + y_2}) - (1-e^{-x_2 + y_1})(1-e^{-x_1 + y_2})\]
+\end{Example}
+
+
+
+\subsection{$G$-equivariant cohomology: what is it, really?}
+Okay, changing gears! We've already seen some $G$-equivariant cohomology (and even some $G$-equivariant $K$-theory), but let's dive into the details a bit.
+
+We all love integral cohomology. It's our favorite (contravariant) functor 
+\[H^*: \frac{\{\textup{spaces, continuous maps}\}}{\textup{homotopy}} \to \textup{Rings}\]
+Fixing a group $G$, we might wish to build a version of $H^*$, which we'll denote $H^*_G$, that goes like:
+\[H_G^*: \frac{\{\textup{$G$-spaces, continuous $G$-equivariant maps}\}}{\textup{$G$-equivariant homotopy}} \to \textup{Rings}\]
+In other words, we're shopping for some kind of topological invariant of $G$-spaces that is sensitive to the action itself (even though, confusingly, the action is not reflected in the notation ``$H_G^*$'' that we've chosen). Let's demand a few properties from $H_G^*$:
+\begin{enumerate}
+    \item if the $G$-action on $X$ is free, then $H_G^*(X) \cong H^*(X/G)$;
+    \item if the $G$-space $C$ is contractible (but not necessarily $G$-equivariantly contractible), then $H_G^*(X \times C) \cong H_G^*(X)$, where the $G$-action on the product is the diagonal one.
+\end{enumerate}
+These are in fact a complete list of axioms of the theory.  Indeed, if $EG$ denotes any contractible space on which $G$ acts freely, then by (1) and (2) we have 
+\[ H_G^*(X) \cong H_G^*(X\times EG) \cong H^*( (X\times EG)/G).\]
+So we can calculate the equivariant cohomology of any $G$-space as the \textit{usual} cohomology of the \textbf{Borel mixing space} $(X\times EG)/G$ of the action. This space looks like an $X$-bundle over $EG/G =: BG$. 
+
+To make use of this new invariant, we'll first need to build some $EG$'s. Let's do a few:
+
+\begin{Example}
+If $G=\Z$, we can take $E\Z := \mathbb{R}$ with the translation action. So $B\Z = S^1$.
+\end{Example}
+
+\begin{Example}
+This will be the most important example for us. If $G=\mathbb{C}^\times$, we can take $E\mathbb{C}^\times := \mathbb{C}^\infty \setminus \{0\}$ with the diagonal action.  This space is contractible by a theorem in topology. By taking products, we get that we can take $E(\mathbb{C}^\times)^d := (E\mathbb{C}^\times)^d$. Another thing: since $B\mathbb{C}^\times \cong \mathbb{C}P^\infty$, we see that even the equivariant cohomology of a point can be huge: $H_{\mathbb{C}^\times}^*(\textup{point}) = H^*(\mathbb{C}P^\infty) = \mathbb{Z}[u], |u|=2$.
+\end{Example}
+
+
+\begin{Example}
+If $G=GL_n\mathbb{C}$, we can take
+\[ EGL_n\mathbb{C} := \{ n \times \mathbb{N} \textup{ matrices of rank $n$}\}\]
+Repeatedly extracting the bottom row realizes $EGL_n\mathbb{C}$ as an iterated $(\mathbb{C}^\infty \setminus \{0\})$-bundle over $\mathbb{C}^\infty \setminus \{0\}$, and therefore it is contractible.
+
+It's not so important that we know this example.  But since we do now, we can get a bunch of $EG$'s for free from the following simple observation: if $G\leq H$ is a subgroup, then $EH$ can serve as an $EG$!  So if $G \leq GL_n\mathbb{C}$ is any matrix group, we can just steal $EGL_n\mathbb{C}=:EG$.
+\end{Example}
+
+\begin{Remark}
+If $G\leq H$ is a homotopy equivalence, then $H^*_G = H^*_H$. We will use this for a torus $T$ inside the Borels $B,B_-$.
+\end{Remark}
+
+\begin{Remark}
+If $Y \subset X$ is a nice $G$-stable subset, then hopefully it's believable that it defines a class $[Y]_G \in H^*_G(X)$. We'll drop the subscript $G$ when it should be clear that something lives in equivariant cohomology. For example, both $[X_w^\circ]$ and $[X_w]$ refer to honest classes in $H_{B_-}^*(GL_n/B)$.
+\end{Remark}
+
+We'll calculate more with this later, but for now we'll take the $GL_n\mathbb{C}$-equivariant inclusion \fbox{$j: GL_n\mathbb{C} \hookrightarrow \textup{Mat}_n\mathbb{C}\simeq \textup{point}$} and extract a diagram that relates the classes we've encountered so far:
+
+\begin{center}
+\begin{tikzcd}
+& & & \mathbb{Z}[x_1, \dots, x_n, y_1, \dots, y_n]\arrow[d,equals]\\
+H^*_{B_-}(GL_n/B) & H^*_{B_-\times B}(GL_n)\arrow[l,equals] & H^*_{B_-\times
+B}(\textup{Mat}_n\mathbb{C})\arrow[l,"j^*"'] \arrow[r,equals] & \overbrace{H^*_{T\times T}(\textup{point})}\\
+\left[X_\pi\right] & \left[\overline{B_- \pi B}\right]\arrow[l,equals] & \left[\overline{\overline{B_- \pi B}}=: \overline{X_\pi}\right]\arrow[l,mapsto] & S_\pi (x,y)\arrow[l,equals]
+\end{tikzcd}
+\end{center}
+
+Here is one more diagram that we can draw: for $v\in S_n$, there is the sequence of $T$-equivariant inclusions \fbox{$i_v: vB/B \hookrightarrow X_0^v \hookrightarrow GL_n/B$}, which gives
+
+\begin{center}
+    \begin{tikzcd}
+    H_T^*(\textup{point}) \cong \mathbb{Z}[y_1, \dots, y_n]\arrow[d,equals] & & \\
+    \overbrace{H^*_T(vB/B)} & H^*_T(X_0^v)\arrow[l,"i_v^*"'] & H_{T\simeq B_-}(GL_n/B)\arrow[l,"i_{X_0^v}^*"']\\
+    \left[X_w\cap X_0^v\right]\big|_v \arrow[d,equals] & \left[X_w\cap X_0^v\right]\arrow[l,mapsto] & \left[X_w\right]\arrow[l,mapsto]\arrow[d,equals]\\
+    S_w(x,y)|_{x_i := y_{v(i)}} & & S_w(x,y)
+    \end{tikzcd}
+\end{center}
+This is a factorization of the map that just restricts to the $T$-fixed point $vB/B \in GL_n/B$.
 
 \section{Lecture 7 (Paul Zinn-Justin)}
 
