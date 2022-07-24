@@ -116,6 +116,15 @@
 \newcommand{\al}{\alpha}
 \newcommand{\be}{\beta}
 
+%Commands for Lecture 12
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Sym}{\operatorname{Sym}}
+\newcommand{\pt}{\operatorname{pt}}
+\newcommand{\codim}{\operatorname{codim}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\spn}{\operatorname{span}}
+
 %Commands for Lecture 14
 \newcommand{\on}[1]{\operatorname{#1}}
 \newcommand{\cI}{\mathcal{I}}
@@ -897,6 +906,62 @@ This is a factorization of the map that just restricts to the $T$-fixed point $v
 \section{Lecture 11 (Paul Zinn-Justin)}
 
 \section{Lecture 12 (Paul Zinn-Justin)}
+    Define $f$ as follows:
+\begin{align*}
+    f:\Gr(k,n)&\to\Gr(k+1,n+1), \\
+    V&\mapsto V\oplus\C
+\end{align*}
+where $\C$ is the $n$'th coordinate subspace and $\C^{n+1}=\C^n\oplus\C$.
+Define
+\begin{align*}
+    T'=(\C^\times)^{n+1}\subset\GL(n+1)
+\end{align*}
+where $T=(\C^\times)^n$. The symmetrizer of $T'$ is $\Sym T'=\Z[y_1,\ldots,y_n,u]$. Then define
+\begin{align*}
+    f^\star:H_{T'}(\Gr(k+1,n+1))]\to H_{T'}(\Gr(k,n)).
+\end{align*}
+Then $D(u)=f^\star f_\star$. Note that $f^\star$ is surjective. Let $x\in H_{T'}^\star(\Gr(k,n))$ and $y\in H_{T'}(\Gr(k+1,n+1))$ where $x=f^\star y$. Then
+\begin{align*}
+    D(u)x = f^\star(f_\star f^\star y) = f^\star(yf_\star 1) = (f^\star f_\star 1)\times\C\in H_{T'}(\Gr(k,n)).
+\end{align*}
+Consider $\C^I$ where $I$ is a $k$-subset of $\{1,\ldots,n\}$. Then $[\mu]\stackrel{f_\star}{\mapsto}[\C^{I\cup\{n\}}]\stackrel{f^{-1}}{\to}[\C^I]$. Note that $\{\C^{I\cup\{n+1\}}\}\cap:\Gr(k,n)$, meaning this intersection is not transverse.
+
+For $\varphi\in H_{T'}(\pt)=\Z[y_1\ldots,y_n,u]$, we have $\deg(\varphi)=\codim\Gr(k,n)\subset\Gr(k+1,n+1)$. We have that $T''\subset T'$ is the line of fixed points going through $\Gr(k,n)$ and $\C^{I_1I_2\cdots I_k}=\spn(e_{I_1},\ldots,e_{I_k},\sum e_j)$. Finally,
+\begin{align*}
+    \varphi(u) = \prod_{j\notin I}(u-y_i).
+\end{align*}
+
+Note that pipe dreams and puzzles have different lattice models. Pipe dreams have two labels ($0$, $1$) whereas puzzles have three labels ($0$, $1$, $10$). Considering the product of two Schubert classes $S^\lambda S^\mu$, we have
+\begin{align*}
+    S^\lambda S^\mu = \sum_\nu c_\nu^{\lambda\mu} S^\nu\in H_T(\pt).
+\end{align*}
+For all $w\in W_p/W$ (where $W_p=\cS_n\times\cS_{n-k}$ and $W=\cS_n$), we have
+\begin{align*}
+    S^\lambda|_wS^\mu|_w = \sum_\nu c_\nu^{\lambda\mu}S^\nu|_w.
+\end{align*}
+Our puzzle pieces are all the rotations of three triangles as well as one rhombus, called the equivariant tile, which may not be rotated: \ctikzfig{Tiles}
+
+Encoding the partitions $\lambda$, $\mu$ and $\nu$ with $\{0,1\}$-strings, we fill in a puzzle corresponding to $c_\nu^{\lambda\mu}$ as follows: \ctikzfig{Puzzle}
+
+Then $\Rcheck$ is a $9\times9$ matrix in $\End(\C^3\otimes\C^3)$.
+\begin{align*}
+    \tikz[baseline=6]{\draw(0,0)node[below]{$y_i$}--++(1,1);\draw(1,0)node[below]{$y_j$}--++(-1,1)} &=
+    \tikz[baseline=16]{\draw(0,0)--++(1/2,1/2)--++(0,1/2)--++(-1/2,1/2);\draw(1/2,1)--++(1/2,1/2);\draw(1/2,1/2)--++(1/2,-1/2)} +
+    (y_i-y_j)
+    \tikz[baseline=6]{\draw(0,0)node[below]{$1$}--++(1,1)node[above]{$1$};\draw(1,0)node[below]{$0$}--++(-1,1)node[above]{$0$}} \\
+    \cup &=
+    \tikz[baseline=6]{\draw[>-](0,1)--++(1/2,-1/2);\draw[>-](1,1)--++(-1/2,-1/2);\draw[->](1/2,1/2)--++(0,-1/2)}
+    \in \Hom(\C^3\otimes\C^3,\C^3)
+\end{align*}
+and $c_\nu^{\lambda\mu}=\langle\nu\mid\cup_1\cdots\cup_n\underbrace{\Rcheck\cdots\Rcheck(y_1-y_n)}_{\binom{n}{2}\text{ of these}}\mid\lambda\otimes\mu\rangle$. Note that if we glue the triangles along their $10$ labels they form a rhombus. Then assign a perpendicular unit vector to the $1$ labels in each tile as follows: \ctikzfig{TileVectors}
+
+Next consider filling a triangle puzzle with the tiles. We have the following lemma.
+\begin{Lemma}
+    The boundary of a puzzle has vector sum zero.
+\end{Lemma}
+\begin{proof}
+    Each tile has vector sum of zero, so a valid filling must have vector sum zero. When tiles meet internally, their vectors cancel so internal edges have vector sum zero. Thus, the vector sum of the boundary must also be zero; this means that each face of the triangle contains the same number of $0$'s and $1$'s.
+\end{proof}
 
 \section{Lecture 13 (Allen Knutson)}
 
