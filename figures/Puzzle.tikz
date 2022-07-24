@@ -1,0 +1,6 @@
+\begin{tikzpicture}[x=2cm,y=2cm]
+	\draw (0,0)--(2,{2*sqrt(3)})--(4,0)--(0,0);
+    \draw[->] (-1/4,0)--node[left]{$\lambda$}++(2,{2*sqrt(3)});
+    \draw[<-] (17/4,0)--node[right]{$\mu$}++(-2,{2*sqrt(3)});
+    \draw[->] (0,-1/4)--node[below]{$\nu$}++(4,0);
+\end{tikzpicture}

@@ -1,0 +1,19 @@
+\begin{tikzpicture}[x=2cm,y=2cm]
+	\draw (0,0)--node[left]{\tiny$0$}(1/2,{sqrt(3)/2})--node[right]{\tiny$0$}(1,0)--node[below]{\tiny$0$}(0,0);
+\end{tikzpicture}
+\begin{tikzpicture}[x=2cm,y=2cm]
+    \draw (0,0)--(0.5,{sqrt(3)/2})--(1,0)--(0,0);
+    \draw [thick, ->, cyan] (1/4,{sqrt(3)/4})--({(1-sqrt(3))/4},{(1+sqrt(3))/4});
+    \draw [thick, ->, cyan] (3/4,{sqrt(3)/4})--({(3+sqrt(3))/4},{(1+sqrt(3))/4});
+    \draw [thick, ->, cyan] (1/2,0)--(1/2,-1/2);
+\end{tikzpicture}
+\begin{tikzpicture}[x=2cm,y=2cm]
+    \draw (0,0)--(1/2,{sqrt(3)/2})--node[right]{\tiny$0$}(1,0)--(0.5,-{sqrt(3)/2})--node[left]{\tiny$0$}(0,0);
+    \draw [thick, ->, cyan] (1/4,{sqrt(3)/4})--({(1-sqrt(3))/4},{(1+sqrt(3))/4});
+    \draw [thick, ->, cyan] (3/4,-{sqrt(3)/4})--({(3+sqrt(3))/4},{-(1+sqrt(3))/4});
+\end{tikzpicture}
+\begin{tikzpicture}[x=2cm,y=2cm]
+    \draw (0,0)--node[left]{\tiny$0$}(1/2,{sqrt(3)/2})--(1,0)--node[right]{\tiny$0$}(0.5,-{sqrt(3)/2})--(0,0);
+    \draw [thick, ->, cyan] (3/4,{sqrt(3)/4})--({(3+sqrt(3))/4},{(1+sqrt(3))/4});
+    \draw [thick, ->, cyan] (1/4,-{sqrt(3)/4})--({(1-sqrt(3))/4},{-(1+sqrt(3))/4});
+\end{tikzpicture}
