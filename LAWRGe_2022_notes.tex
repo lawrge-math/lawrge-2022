@@ -14,6 +14,7 @@
 \usepackage{amsbsy}
 \usepackage{amstext}
 \usepackage{amsopn}
+\usepackage{stmaryrd}
 %\usepackage{mathrsfs} % allows \mathscr
 \usepackage[mathscr]{eucal}
 \usepackage{enumerate}
@@ -134,6 +135,15 @@
 \newcommand{\Stil}{\tilde{S}}
 \usepackage{tikzit}
 \input{tikzit_styles.tikzstyles}
+
+%Commands for Lecture 13, 15
+\newcommand{\GS}{\operatorname{GS}}
+% \newcommand{\GL}{\mathrm{GL}}
+\newcommand{\Fl}{\operatorname{\mathscr{F}\!\ell}}
+% \newcommand{\End}{\mathrm{End}}
+\newcommand{\Lie}{\operatorname{Lie}}
+\newcommand{\MO}{\operatorname{MO}}
+
 
 %% code from mathabx.sty and mathabx.dcl
 \DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
@@ -965,6 +975,130 @@ Next consider filling a triangle puzzle with the tiles. We have the following le
 
 \section{Lecture 13 (Allen Knutson)}
 
+
+Historical round up of the names whose work leads to understanding what the $6$ vertex puzzles were solving:
+\begin{itemize}
+	\item (Jimbo/Drinfeld '80s): $R$-matrices from representation theory of quantized loop algebras $U_q(\delta[z^\pm])$
+	\item (Nakajima '01): some representations of $U_q(\delta[z^\pm])$ acting on $K(\text{quiver schemes})$ (think $\text{quiver schemes} = \bigsqcup \text{ quiver varieties}$)
+	\item (Varagnolo '01): same thing in cohomology
+	\item (Maulik-Okounkov '12): $R$-matrices "from" quiver schemes
+\end{itemize}
+
+\begin{Example}
+	$\text{T}^* \Gr(k, \C^n)$ are Nakajima quiver varieties
+\end{Example}
+
+Note that quiver varieties and cotangent bundles of manifolds are always symplectic manifolds.
+But quiver varieties are cotangent bundles \textbf{only} as cotangent bundles of flag manifolds or their products.
+
+We will be working in $H^*_{T\times \C^\times} (\text{T}^* \Gr(k, \C^n))$ where the $\C^\times$ factor acts by dilation on the fibers. Note that we have
+\[
+	H^*_{T\times \C^\times} (\text{T}^* \Gr(k,\C^n)) \cong H^*_{T\times \C^\times} (\Gr(k,\C^n)) \cong H^*_{T} (\Gr(k,\C^n)) [\hbar]
+\]
+since $\text{T}^* \Gr(k,\C^n)$ and $\Gr(k,\C^n)$ are homotopy equivalent.
+
+So although we have the Schubert basis, we will be working with a different basis.
+In particular, we will be using specific subvarieties in $\text{T}^* \Gr(k,\C^n)$ that are not the Schubert varieties. However, as we shall see, taking the leading term with respect to $\hbar$ in the new basis will correspond to taking the Schubert classes.
+
+\begin{Definition}
+	To a locally closed submanifold $A \subsetneq M$ (e.g. Schubert cells) we associate its conormal bundle $C_A M \subset \text{T}^* M$ defined by
+
+	\begin{center}
+		\begin{tikzcd}
+			C_A M \arrow[r, phantom, sloped, "\subseteq"] \arrow[d, equals] & \text{T}^* M \arrow[d, equals] \\
+			\{(m,\overrightarrow{v}) : m\in A, \overrightarrow{v}\perp \text{T}_m A\}                                                & \{(m,\overrightarrow{v}): m\in M,\overrightarrow{v} \in \text{T}_m^* M \}
+		\end{tikzcd}
+	\end{center}
+\end{Definition}
+
+Note that $\dim C_A M = \dim M$.
+
+Recall that for a continuous map $f: M\to N$ we get a map $\text{T} f : \text{T} M \to \text{T} N$, but \textbf{not} a map $\text{T}^* f : \text{T}^* M \to \text{T}^* N$. We wish to rectify this as follows:
+\begin{Definition}
+	The "category" of ({\color{red} symplectic}) manifolds \& ({\color{red} Lagrangian}) correspondences has objects - compact oriented manifolds and  morphisms - $\Hom(M,N) := \{ \text{ oriented cycles } L\subseteq M \times N\}$.
+	(cycles in the sense of formal linear combinations)
+\end{Definition}
+
+\begin{Example}
+	To a function $f:M \to N$ we can assign its graph,
+	\[ \text{graph}(f) = \{(m, f(m)) : m \in M\} \subseteq M \times N.
+	\]
+\end{Example}
+
+We define composition in our "category" as follows:
+
+\begin{center}
+	\begin{tikzcd}
+		&                         & L \star K \arrow[ld] \arrow[rd] &                         &   \\
+		& L \arrow[ld] \arrow[rd] &                         & K \arrow[ld] \arrow[rd] &   \\
+		M &                         & N                       &                         & P
+	\end{tikzcd}
+\end{center}
+where $L\star K \coloneqq L \times_N K = \{ (m,p) \in M\times P: \exists n\in N, (m, n) \in L, (n,p) \in K\}$.
+
+Note that although $L\star K$ works as a set, it might \textbf{not} be a submanifold, hence why we say "category" and only consider compositions when they make sense.
+
+\textbf{Why is this "category" worth understanding?}
+
+Consider the functor $H_*$ (or $H^*$) from the category of compact oriented manifolds to inner product spaces.
+
+Note that the category of inner product spaces has a notion of transpose, while the category of compact oriented manifolds does not. We attempt to fix this by introducing our "category" which has a transpose $(L \subseteq M\times N) \mapsto (L^T \subseteq N\times M)$. In fact, we see that $H_*$ factors through our "category" in the following way:
+
+\begin{center}
+	\begin{tikzcd}
+		\left \{ \parbox{8em}{compact oriented manifolds \& functions} \right \} \arrow[rrrr,"H_*(\text{or } H^*)"] \arrow[rrd, "\text{graph}(\cdot)"] &  &               &  & \left \{ \parbox{8em}{inner product spaces} \right \} \\
+		&  & \left \{ \parbox{8em}{compact oriented manifolds \& correspondences} \right \} \arrow[rru,"\beta"] &  & (\beta_L : H^*(M) \to H^*(N)) \\
+		&  & L\in \Hom(M, N) \arrow[rru, mapsto]            &  &
+	\end{tikzcd}
+\end{center}
+
+Where to define $\beta_L$, we consider the projections:
+\begin{center}
+	\begin{tikzcd}
+		& M\times N \arrow[ld, "\pi_M"'] \arrow[rd,"\pi_N"] &   \\
+		M &                         & N
+	\end{tikzcd}
+\end{center}
+so that
+\[
+	\beta_L(m) \coloneqq (\pi_N)_*([L] \cup \pi_M^*(m))
+\]
+
+To see when $\beta$ works well with compositions, we require that $\int_N (L\times P) \pitchfork (M\times K)$, i.e.
+\begin{itemize}
+	\item $L\times P$ intersects transversally with $M\times K$ in $M\times N\times P$
+	\item the image of $(L\times P) \cap (M\times K)$ in $N$ under projection is generically finite-to-one
+\end{itemize}
+in which case $\beta_{L \star K} = \beta_{K} \circ \beta_{L}$.
+
+
+\begin{Remark}
+	\[
+		(\beta_{\text{graph}(f)})^T = f_* : H_*(M) \to H_*(N)
+	\]
+	where $f:M \to N$ is a function and $(\cdot)^T$ denotes the transpose.
+\end{Remark}
+
+What Alan Weinstein focused on is {\color{red} symplectic} manifolds and {\color{red} Lagrangian} correspondences.
+
+In such cases, $C_A M$ is Lagrangian and whenever \[
+	\int_N (L\times P) \pitchfork (M\times K)
+\] holds, then $L \star K$ is Lagrangian.
+
+Much less obvious is that $L \star K$ is a Lagrangian variety even without the transversality conditions. (reference needed)
+
+\begin{Question}
+	Let $f : M \to N$, prove that the following diagram commutes:
+
+	\begin{center}
+		\begin{tikzcd}
+			\text{T}^* N \arrow[r]           & \text{T}^* M           \\
+			N \arrow[r,"(\text{graph}(f))^T"] \arrow[u,"\text{graph}(\eta_N)"] & M \arrow[u,"\text{graph}(\eta_M)"']
+		\end{tikzcd}
+	\end{center}
+	where $\eta_N,\eta_M$ denote the zero section functions.
+\end{Question}
+
 \section{Lecture 14 (Paul Zinn-Justin)}
 
 \subsection{Basic Definitions}
@@ -1115,6 +1249,189 @@ while to a ``lonely" $0$ or $1$ in position $i$ we associate $\begin{pmatrix} 1\
 \end{Theorem}
 
 \section{Lecture 15 (Allen Knutson)}
+
+\begin{Definition}
+	Let $0 = n_0 \leq n_1 \leq n_2 \leq \dots \leq n_d \leq n_{d+1} = n$ be a sequence of integers, we define the Grothendieck-Springer space as
+	\begin{equation*}
+		\begin{aligned}
+			\GS \coloneqq \{
+			 & (\overrightarrow{\varepsilon} \in \C^d, V^* := (0 = V^{n_0} \subseteq V^{n_1} \subseteq V^{n_2} \subseteq \dots \subseteq V^{n_d} \subseteq V^{n_{d+1}}  =\C^n), X \in \End(\C^n)): \\
+			 & \dim V^{n_i} = n_i, (X - \varepsilon_i) \cdot V^{n_i} \subseteq V^{n_{i-1}} \}
+		\end{aligned}
+	\end{equation*}
+\end{Definition}
+
+We think of $V^*$ as a partial flag and $n_i$ as its dimensions.
+
+It is clear from the conditions that there is an action of $\GL_n(\C)$ on $\GS$ that preserves $\overrightarrow{\varepsilon}$, acts by multiplication on the flag $V^*$, and by conjugation on $X$.
+
+\begin{Example}
+	If we fix $V^*$ to be a standard partial flag, then the conditions imply that $X$ is a block matrix:
+	\begin{equation*}
+		\newcommand*{\tempb}{\multicolumn{1}{|c}{}}
+		\newcommand*{\tempc}{\multicolumn{1}{c|}{}}
+		X = \left[\begin{array}{cccccccc}
+				\varepsilon_1    &        & \text{\large{0}} & \tempb        &        &        &                  &        \\
+				                 & \ddots &                  & \tempb        &        &        & \text{\LARGE{*}} &        \\
+				\text{\large{0}} &        & \varepsilon_1    & \tempb        &        &        &                  &        \\ \cline{1-5}
+				                 &        & \tempc           & \varepsilon_2 & 0      & \tempb &                  &        \\
+				                 &        & \tempc           & 0             & \ddots & \tempb &                  &        \\ \cline{4-5}
+				                 &        &                  &               &        & \ddots &                  &        \\ \cline{7-8}
+				                 &        & \text{\LARGE{0}} &               &        & \tempc & \varepsilon_d    & 0      \\
+				                 &        &                  &               &        & \tempc & 0                & \ddots \\
+			\end{array}\right]
+	\end{equation*}
+\end{Example}
+
+\begin{Example}
+	If we fix $\overrightarrow{\varepsilon} = \overrightarrow{0}$ then we have the isomorphism
+	\[
+		\GS|_{\overrightarrow{\varepsilon}=0} \cong \text{T}^* \Fl(n_1, \dots, n_d; \C^n).
+	\]
+\end{Example}
+
+\begin{Example}
+	Let $\overrightarrow{\varepsilon}$ be non-repeating, $n_i=i$ and $d=n$. Then we have
+	\[
+		X \in \GL_n(\C) \cdot
+		\begin{bmatrix*}
+			\varepsilon_1&&\text{\large{0}}\\
+			&\ddots&\\
+			\text{\large{0}}&&\varepsilon_n
+		\end{bmatrix*}.
+	\]
+	Hence, the full flag $V^*$ is determined from $X$ by taking appropriate sums of the (one dimensional) eigenspaces,
+	and we obtain that the fiber is the homogeneous space
+	\[
+		\GS|_{\overrightarrow{\varepsilon}} \cong \GL_n / T.
+	\]
+\end{Example}
+
+\begin{Remark}
+	In general, $\GS$ is a manifold.
+	For any fixed ${\overrightarrow{\varepsilon}}$, it is still a manifold since it's a bundle over the flag manifold and the fibers are smooth.
+\end{Remark}
+
+\begin{Remark}
+	If we fix ${\overrightarrow{\varepsilon}} = {\overrightarrow{0}}$ and forget the flag, then the image of $\GS|_{\overrightarrow{\varepsilon}=0}$ in $\End(\C^n)$ is the cone of nilpotent matrices, which is singular. This is what Springer thought about, taking $\GS|_{\overrightarrow{\varepsilon}=0}$ as a resolution of singularities of the nilpotent cone.
+\end{Remark}
+
+\begin{Remark}
+	Outside of Type $A$, we can consider $\GS$ as well.
+	We take $V^* \in G/P$, $X \in \Lie(G)^\vee$, $\overrightarrow{\varepsilon} \in Z(\text{Levi}(P))$ and one can figure out the appropriate conditions make it work.
+\end{Remark}
+
+Recall the Bruhat decomposition
+\[
+	G/B = \bigsqcup_{w \in W} B_- w B / B
+\]
+
+and consider the similar inclusion
+
+\[
+	G/T \supseteq \bigsqcup_{w \in W} B_- w T/T
+\]
+
+The action of $W = N(T)/T$ on $G/T$ by right-multiplication permutes the spaces $B_- w T/T$ transitively.
+
+Looking at the simplest $B_- T/T$, it is closed in $G/T$ since $B_-$ is closed in $G$. Hence, \textbf{all} the spaces $B_- w T/T$ are closed and have the same dimension $\dim (B_- T/T) = \frac{1}{2} \dim (G/T)$.
+
+In particular, this implies that the inclusion is strict unless $G$ is trivial.
+
+\begin{Remark}
+	This is very different from the Bruhat decomposition of $G/B$!
+\end{Remark}
+
+We wish to take the "limit" ${\overrightarrow{\varepsilon}} \to {\overrightarrow{0}}$ to get from $G/T$ to $\text{T}^* G/B$. Similarly, on the right, we wish to consider the "limit" of the graph of an action $r_\alpha \in W$. This should give us an auto-correspondence at $\overrightarrow{\varepsilon} = \overrightarrow{0}$.
+
+Fix a reflection $r_\alpha \in W$ and consider its action on $\GS|_{\overrightarrow{\varepsilon}}$, we denote its graph by
+\[
+	\text{graph}(r_\alpha) \subseteq
+	(\GS|_{\overrightarrow{\varepsilon}})^2 \subseteq \GS^2.
+\]
+
+By varying over \textbf{generic} (non-repeating) $\overrightarrow{\varepsilon}$ we can consider the set
+\[
+	\overline{
+		\bigcup_{\overrightarrow{\varepsilon}\text{non-repeating}} \text{graph}(r_\alpha)
+	}
+	\subseteq \GS^2
+\]
+
+This closure is going to tell us what happens at $\overrightarrow{0}$, where we can extract the desired auto-correspondence $\subseteq \GS|_{\overrightarrow{\varepsilon}=0} \times \GS|_{\overrightarrow{\varepsilon}=0}$.
+
+\begin{Example}
+	To see this construction in action, we can consider $\C^\times$ acting by division on $\C$. Then, the graph of $t \in \C^\times$ is $\text{graph}(t) = \{ (x,y) : y = x/t\}$, so the corresponding set is
+	\[
+		\overline{
+			\bigcup_{t\in \C^\times} \text{graph}(t)
+		} =
+		\overline{
+			\{ (x,y,t) : y=x/t\}
+		} = \{ (x,y,t) : t y=x\}.
+	\]
+	From this we get the limit of $t \to 0$ as $\{(x,y): x=0\}$.
+\end{Example}
+
+Recall that in our case, $\GS|_{\overrightarrow{\varepsilon}=0} = \text{T}^* \GL_n/B$, so by the limit correspondence, we obtain an action
+\[
+	H^*_{T \times \C^\times}(\text{T}^* \GL_n/B) \circlearrowleft r_i.
+\]
+
+Recall that
+\[
+	H^*_{T \times \C^\times}(\text{T}^* \GL_n/B) = \Z[x_1, \dots, x_n, y_1, \dots, y_n, \hbar] / \la p(x) = p(y) \text{ for } p \text{ symmetric} \ra
+\]
+so that the action of $r_i$ is algebraically given by the operator $r_i^x + \hbar \partial_i^x$ where $r_i^x$ swaps $x_i$ with $x_{i+1}$, and  $\partial_i^x = \frac{1}{x_i-x_{i+1}} (1-r_i^x)$. Note that $r_i$ is indeed an action since $r_i^2 = 1$.
+
+In the following, we are interested in computing the classes of the limits of $B_- w T/T$ in $H^*_{T \times \C^\times}(\text{T}^* \GL_n/B)$. In fact, we need only consider one such class, since we know that the action of $W$ is transitive.
+
+We start with the base case $w_0^{(n)}$ and consider the polynomial
+\[
+	\MO_{w_0^{(n)}} = S_{w_0^{(n)}} = \prod_{i+j\leq n} (x_i-y_j),
+\] where $\MO$ stands for Maulik Okounkov, to obtain the general case
+\[
+	\MO_w = \left(\prod_{\text{reduced word for } w^{-1}w_0^{(n)}} (r_i + \hbar \partial_i)\right) \MO_{w_0^{(n)}}.
+\]
+
+As we did with double Schubert polynomials, we define the restriction to a point $v \in W$ by
+\[
+	\cdot\  |_v \coloneqq (x_i \mapsto y_{v(i)})
+\]
+so that $\MO_w |_v \in H_{T \times \C^\times}^*(\text{pt}) = \Z[y_1, \dots, y_n, \hbar]$.
+
+In the following, we would like to see if the classes of the limits are a basis for $H^*_{T \times \C^\times}(\text{T}^* \GL_n/B)$.
+
+\begin{Definition}
+	Denote the limit of the space $B_-w T/T$ by
+	\[
+		(\MO \text{ "stable Lagrangian cycle"})_w \coloneqq \lim_{\varepsilon\to 0} B_-w T/T \subseteq \text{T}^* \GL_n/B.
+	\]
+\end{Definition}
+
+Then, by restricting to every point of $W$ and comparing classes, we can conclude that
+
+\begin{Theorem}
+	\[
+		[ (\MO \text{ "stable Lagrangian cycle"})_w ]  \mapsfrom \MO_w \in \mathbb{Z}[x_1,\dots,x_n, y_1, \dots, y_n, \hbar]
+	\]
+	where $[ (\MO \text{"stable Lagrangian cycle"})_w ] \in H^*_{T \times \C^\times}(\text{T}^* \GL_n/B)$.
+\end{Theorem}
+
+\begin{Definition}
+	The opposite $\MO$ class of $w$ is given by
+	\[
+		(\MO^w =\ )\  \widetilde{\MO_w} \coloneqq w_0^{(n)} \cdot \MO_w
+	\]
+	where $w_0^{(n)}$ acts by $y_i \mapsto y_{n+1-i}$.
+\end{Definition}
+
+The classes $\MO_w$ and $\MO^w$ are dual in the sense that they are both classes of Lagrangian spaces in $\text{T}^* \GL_n/B$ which we can intersect and integrate in equivariant cohomology to get the expected duality (ignoring the non-compactness of $\text{T}^* \GL_n/B$, via fixed points).
+
+Finally, comparing with the Schubert basis, the $\MO$ classes are a basis in the following sense:
+\begin{Proposition}
+	The classes $[\MO_w]$ are a basis over $\text{frac}(H^*_{T\times\C^*})$.
+\end{Proposition}
 
 \section{Lecture 16 (Allen Knutson)}
 
