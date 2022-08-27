@@ -30,7 +30,7 @@
 \usepackage{tikz}
 \usepackage{bbm}
 \usepackage[all]{xy}
-\usetikzlibrary{arrows,calc,positioning,decorations.pathreplacing} %,arrows.meta}
+\usetikzlibrary{arrows,calc,positioning,decorations.pathreplacing,braids,cd} %,arrows.meta}
 
 %Path relative to the main .tex file 
 \graphicspath{ {./figures/} }
@@ -914,6 +914,190 @@ This is a factorization of the map that just restricts to the $T$-fixed point $v
 \section{Lecture 10 (Allen Knutson)}
 
 \section{Lecture 11 (Paul Zinn-Justin)}
+We recall the following equivalent ways to express elements of the Grassmanian:
+\begin{center}
+	\begin{tabular}{ |c |c| }
+		\hline
+		Gr$(k,n)$ & $k=3$ $n=5$ example \\ \hline
+		$k$-subsets of $\lbrace 1,\dots,n\rbrace$ & $\lbrace 1,3,5\rbrace$ \\ 
+		Binary strings with content $0^k/1^{n-k}$ & $01010$ \\  
+		Inverses of Grassmanian permutations & $14253$ \\
+		\hline 
+	\end{tabular}
+\end{center}
+Diagrammatically we express this as:
+\begin{center}
+	\begin{tikzcd}
+		0 \arrow[dd] & 1 \arrow[rdd] & 0 \arrow[ldd] & 1\arrow[rdd] & 0  \arrow[ldd] & \textcolor{red}{=\mu}\\
+		&&&&& \textcolor{red}{=w}\\
+		0 & 0 & 0 & 1 & 1 & \textcolor{red}{=w(\mu)}
+		
+	\end{tikzcd}
+\end{center}
+We also recall the $\check{R}$-matrix expression
+\begin{align*}
+	&&\check{R}_i(u)&=\underbrace{1\otimes\dots\otimes 1}_\text{$i+1$}\otimes \left(\begin{array}{cccc}
+		1 &  & &  \\
+		&  1 & & \\
+		& u& 1 & \\
+		& & & 1
+	\end{array} \right)\otimes\underbrace{1\otimes\dots\otimes 1}_\text{$n-i-1$}.&
+\end{align*}
+We wish to consider the expansion of $s_iS_\lambda$ into $S_\mu$: $\check{R}_i(y_i-y_{i+1})=\check{R}^{(s_i)}$. We have
+\begin{align*}
+	&&\int \Tilde{S}_\lambda S_\mu&=\delta_{\lambda\vec{\mu}}&
+\end{align*}
+where $\Tilde{S}_\lambda$ denotes the class of the Schubert cell opposite to $S_\lambda$ and
+\begin{align*}
+	&& S_\lambda&=S_\lambda^{(1)}, & \Tilde{S}_\lambda&=S^{(w_0)}_\lambda.&
+\end{align*}
+A diagrammatic example for the permutation 231 is given by
+\begin{center}
+	\begin{tikzcd}
+		&y_1 \arrow[ddr]& y_2\arrow[ddr]& y_3 \arrow[ddll]\\
+		\Check{R}^{(231)}= &{}&{}&\\
+		&{}&{}& {}
+	\end{tikzcd}
+\end{center}
+For $w\in S_n$ we have
+\begin{align*}
+	&&\Check{R}_{\lambda\mu}^{(w)}&=\int (w\Tilde{S}_\lambda)S_\mu&
+\end{align*}
+and we wish to know for example whether
+\begin{align*}
+	&&\Check{R}^{(\underline{231})}&\stackrel{?}{=} \Check{R}^{(s_1)} \Check{R}^{(s_2)}&
+\end{align*}
+where $(\underline{231})=s_1s_2$. Letting $\tau_i: y_i\leftrightarrow y_{i+1}$ we have
+\begin{align*}
+	&&\tau_1\Check{R}^{(s_1)}\tau_2\Check{R}^{(s_2)}&=\tau_1\Check{R}_1(y_2-y_1)\tau_2\Check{R}_2(y_3-y_2)&\\
+	&&&=\tau_1\tau_2\Check{R}_2(y_3-y_1)\Check{R}_2(y_3-y_2).&
+\end{align*}
+Now letting
+\begin{align*}
+	&&f&=\sum_\lambda a_\lambda S_\lambda, &a_\lambda\in H_T
+\end{align*}
+we have
+\begin{align*}
+	&&s_if&=\sum_\lambda(\tau_i\alpha_\lambda)s_iS_\lambda&
+\end{align*}
+where the action of $s_i$ on $(H_T^*(\mathrm{Gr}),S_\lambda)$ is 
+\begin{align*}
+	&&\Check{R}_i(y_i-y_{i+1})\tau_i&=\tau_i\Check{R}_i(y_{i+1}-y_i)&
+\end{align*}
+by the action of $s_i$ on the base ring $H_T^*$. The relations of $S_n$ also give us
+\begin{align*}
+	&&\tau_i\Check{R}_i(y_{i+1}-y_i)&=\tau_i\Check{R}_i(y_{i+1}-y_i)\tau_i \Check{R}_i(y_{i+1}-y_i)&\\
+	&&&=\tau_i^2\Check{R}_i(y_{i+1}-y_i)\Check{R}_i(y_{i+1}-y_i)&\\
+	&&&=1&
+\end{align*}
+which is equivalent to the following diagrammatic relation:
+\begin{center}
+	\begin{tikzpicture}
+		\pic[
+		braid/.cd,
+		number of strands = 2,
+		every strand/.style={ultra thick,->},
+		strand 1/.style={black},
+		name prefix=braid,
+		] {braid={ s_1s_1^{-1} }};
+		\node[circle,fill=white, inner sep = 2pt] at (braid-1-0) {$y_i$};
+		\node[circle,fill=white, inner sep = -1pt] at (braid-2-0) {$y_{i+1}$};
+	\end{tikzpicture} = 
+	\begin{tikzpicture}
+		\pic[
+		braid/.cd,
+		number of strands = 2,
+		every strand/.style={ultra thick,->},
+		strand 1/.style={black},
+		name prefix=braid,
+		] {braid={ 11 }};
+		\node[circle, fill=white, inner sep = 2pt] at (braid-1-0) {$y_i$};
+		\node[circle, fill=white, inner sep = -1pt] at (braid-2-0) {$y_{i+1}$};
+	\end{tikzpicture}
+\end{center}
+We also have the Yang-Baxter equation:
+
+\begin{center}
+	\begin{tikzpicture}
+		\pic[
+		braid/.cd,
+		number of strands = 3,
+		every strand/.style={ultra thick,->},
+		strand 1/.style={black},
+		name prefix=braid,
+		] {braid={ s_1s_2 s_{1,2} }};
+		\node[circle,fill=white, inner sep = 2pt] at (braid-1-0) {$y_i$};
+		\node[circle,fill=white, inner sep = -1pt] at (braid-2-0) {$y_{i+1}$};
+		\node[circle,fill=white, inner sep = -1pt] at (braid-3-0) {$y_{i+2}$};
+	\end{tikzpicture} = 
+	\begin{tikzpicture}
+		\pic[
+		braid/.cd,
+		number of strands = 3,
+		every strand/.style={ultra thick,->},
+		strand 1/.style={black},
+		name prefix=braid,
+		] {braid={ s_{2,3} s_1 s_2 }};
+		\node[circle, fill=white, inner sep = 2pt] at (braid-1-0) {$y_i$};
+		\node[circle, fill=white, inner sep = -1pt] at (braid-2-0) {$y_{i+1}$};
+		\node[circle, fill=white, inner sep = -1pt] at (braid-3-0) {$y_{i+2}$};
+	\end{tikzpicture}
+\end{center}
+which may be expressed algebraically as:
+\begin{align*}
+	&&\Check{R}_i(y_{i+2}-y_{i+1})\Check{R}_{i+1}(y_{i+2}-y_i)\Check{R}_i(y_{i+1}-y_i)&=\Check{R}_{i+1}(y_{i+1}-y_i)\Check{R}_i(y_{i+2}-y_i)\Check{R}_{i+1}(y_{i+2}-y_{i+1}).&
+\end{align*}
+For an arbitrary permutation $w$ we may also write
+\begin{center}
+	\includegraphics[]{lecture_diagrams_cropped_1.png}
+\end{center}
+With these we now give a reinterpretation of the AJS-Billey formula. First we let
+\begin{align*}
+	&&[\lambda]&=\sum a_{\lambda\mu} S_\mu,& a_{\lambda\mu}&=\int \Tilde{S}_\mu[\lambda].&
+\end{align*}
+Then we have
+\begin{align*}
+	&&S_\lambda|_\mu&=\int S_\lambda[\mu]&\\
+	&&&=\int S_\lambda w\Tilde{S}_{0\dots0 1\dots 1}&\\
+	&&&=\Check{R}^{(w)}_{0\dots01\dots 1,\lambda}&
+\end{align*}
+where $[1\dots 10\dots 0]=S_{1\dots 10\dots 0}$, $[0\dots01\dots 1]=\Tilde{S}_{0\dots01\dots1}$ and $w\in S_n$ is such that $[\mu]=w[0\dots01\dots1]$. That is, $w$ is the permutation which pushes all of the 1s in the binary string expression for $[\mu]$ to the right. Diagrammatically we express this operation by
+\begin{center}
+	\includegraphics[scale=0.75]{lecture_diagrams_cropped_2.png}
+\end{center}
+To express these ideas with transfer matrices we use a correspondence whereby
+
+
+\begin{align*}
+	&&H_T^*(\mathrm{Gr}(\cdot,n))\otimes\C&\cong (\C^2)^{\otimes n}[y_1,\dots,y_n]&\\
+	&&S_\lambda& \leftrightarrow \bigotimes_{i=1}^n\begin{cases} 
+\begin{pmatrix}
+	0 \\
+	1  
+\end{pmatrix}, & \lambda_i=1, \quad \color{red}\dotfill \\
+\begin{pmatrix}
+	1 \\
+	0  
+\end{pmatrix}, & \lambda_i=0,\quad \ \color{blue}{1} 
+\end{cases}
+\end{align*}
+where $\mathrm{Gr}(\cdot,n)=\lbrace V\subset\C^n\mid \text{ $V$ a linear subspace}\rbrace$. The transfer matrix
+\begin{center}
+	\includegraphics[]{lecture_diagrams_cropped_3.png}
+\end{center}
+with $\left(\begin{array}{cc}
+	A & B \\
+	C & D
+\end{array}\right)\in\mathrm{End}( H_T^*(\mathrm{Gr}(\cdot,n))[u]$ preserves each $H_T^*(\mathrm{Gr}(k,n))$.
+\begin{center}
+	\includegraphics[scale=0.8]{lecture_diagrams_cropped_4.png}
+\end{center}
+Finally, with $\mu=w[0\dots01\dots1]$ we have
+\begin{center}
+	\includegraphics[]{lecture_diagrams_cropped_5.png} \\
+	\includegraphics[]{lecture_diagrams_cropped_6.png}
+\end{center}
+which gives us our reinterpretation of the AJS-Billey formula.
 
 \section{Lecture 12 (Paul Zinn-Justin)}
     Define $f$ as follows:
